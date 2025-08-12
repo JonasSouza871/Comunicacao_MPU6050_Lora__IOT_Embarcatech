@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🚀 Pico LoRa Communicator – RFM95
 
 <div align="center">
@@ -133,3 +134,7 @@ cp lora_rx.uf2 /media/user/RPI-RP2
 -   **Display OLED não mostra nada:**
     -   Verifique as conexões I2C (SDA e SCL) e a alimentação do display.
     -   Confirme se o endereço I2C do display (`0x3C`) está correto.
+=======
+# Comunicacao_MPU6050_Lora__IOT_Embarcatech_
+Este projeto implementa um sistema de medição de aceleração e giro sem fio, utilizando a tecnologia LoRa para transmitir dados em tempo real entre dois microcontroladores Raspberry Pi Pico.
+>>>>>>> 5b8e27a0324ba691f2719fc8d72bfe8aef2ee32d
