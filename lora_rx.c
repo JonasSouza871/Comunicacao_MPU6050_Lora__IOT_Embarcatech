@@ -14,21 +14,21 @@
 
 // --- Estrutura para dados do sensor ---
 typedef struct {
-    float accel_x, accel_y, accel_z;
-    float gyro_x, gyro_y, gyro_z;
+    float accel_x, accel_y, accel_z; // Dados do acelerômetro
+    float gyro_x, gyro_y, gyro_z;   // Dados do giroscópio
 } SensorData;
 
 // --- Variável global do display ---
 ssd1306_t ssd;
 
 // --- Funções auxiliares ---
-// Faz parsing da mensagem recebida para a estrutura de dados
+// Converte a mensagem recebida em dados do sensor
 int parse_sensor_message(const char *message, SensorData *dados) {
-    if (!message || !dados) return -1; // Verifica ponteiros nulos
+    if (!message || !dados) return -1; // Verifica se os ponteiros são válidos
     int qtd = sscanf(message, "%f %f %f %f %f %f",
                      &dados->accel_x, &dados->accel_y, &dados->accel_z,
                      &dados->gyro_x, &dados->gyro_y, &dados->gyro_z);
-    return (qtd == 6) ? 0 : -2; // Retorna sucesso ou erro de parsing
+    return (qtd == 6) ? 0 : -2; // Retorna 0 se conseguiu ler todos os dados
 }
 
 // Inicializa e configura o display OLED
@@ -54,6 +54,7 @@ static void mostrar_tela_valores_recebidos(const SensorData *dados) {
     ssd1306_draw_string(&ssd, "RX LoRa", 40, y, false);
     y += 10;
     
+    // Exibe dados do acelerômetro
     snprintf(linha, sizeof(linha), "ax: %.2f", dados->accel_x);
     ssd1306_draw_string(&ssd, linha, 0, y, false);
     y += 9;
@@ -62,6 +63,8 @@ static void mostrar_tela_valores_recebidos(const SensorData *dados) {
     y += 9;
     snprintf(linha, sizeof(linha), "az: %.2f", dados->accel_z);
     ssd1306_draw_string(&ssd, linha, 0, y, false);
+    
+    // Exibe dados do giroscópio
     y += 9;
     snprintf(linha, sizeof(linha), "gx: %.2f", dados->gyro_x);
     ssd1306_draw_string(&ssd, linha, 0, y, false);
@@ -75,7 +78,7 @@ static void mostrar_tela_valores_recebidos(const SensorData *dados) {
     ssd1306_send_data(&ssd);
 }
 
-// Mostra RSSI e SNR no display
+// Mostra qualidade do sinal no display
 static void mostrar_tela_rssi_snr(const int rssi, const float snr) {
     char linha[30];
     int y = 0;
@@ -125,24 +128,22 @@ int main() {
             
             // Processa mensagem se válida
             if (parse_sensor_message((char*)buffer, &dados_recebidos) == 0) {
-                printf("Accel X: %.2f\n", dados_recebidos.accel_x);
-                printf("Accel Y: %.2f\n", dados_recebidos.accel_y);
-                printf("Accel Z: %.2f\n", dados_recebidos.accel_z);
-                printf("Gyro X: %.2f\n", dados_recebidos.gyro_x);
-                printf("Gyro Y: %.2f\n", dados_recebidos.gyro_y);
-                printf("Gyro Z: %.2f\n", dados_recebidos.gyro_z);
+                printf("Dados do sensor recebidos:\n");
+                printf("Acelerometro: X=%.2f, Y=%.2f, Z=%.2f\n", 
+                       dados_recebidos.accel_x, dados_recebidos.accel_y, dados_recebidos.accel_z);
+                printf("Giroscopio: X=%.2f, Y=%.2f, Z=%.2f\n", 
+                       dados_recebidos.gyro_x, dados_recebidos.gyro_y, dados_recebidos.gyro_z);
                 mostrar_tela_valores_recebidos(&dados_recebidos);
             } else {
-                printf("Mensagem invalida: '%s'\n", buffer);
+                printf("Mensagem com formato invalido: '%s'\n", buffer);
             }
             
             // Exibe informações do pacote
             printf("--------------------------------\n");
             printf("Pacote Recebido!\n");
             printf("  Mensagem: '%s'\n", buffer);
-            printf("  Bytes: %d\n", packet_size);
-            printf("  RSSI: %d dBm\n", rssi);
-            printf("  SNR: %.2f dB\n", snr);
+            printf("  Tamanho: %d bytes\n", packet_size);
+            printf("  Qualidade do sinal: RSSI=%d dBm, SNR=%.2f dB\n", rssi, snr);
             printf("--------------------------------\n");
             
             sleep_ms(2000);
