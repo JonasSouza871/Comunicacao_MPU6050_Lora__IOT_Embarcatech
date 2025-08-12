@@ -176,5 +176,12 @@ cp lora_pico.uf2 /media/user/RPI-RP2
 
 ---
 
+### Autores
+- Jeová Pinheiro  
+- Jonas Souza  
+- Leonardo Luz  
+- Wilton Lacerda  
+
+
 
 
