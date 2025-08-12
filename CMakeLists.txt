@@ -34,9 +34,9 @@ include_directories(lib)
 #Seleção do código-fonte principal (TX ou RX)
 set(MAIN_SOURCE_FILE
     #Descomente para compilar como transmissor
-    lora_tx.c
+    #lora_tx.c
     #Descomente para compilar como receptor
-    #lora_rx.c
+    lora_rx.c
 )
 
 #Lista de arquivos-fonte da biblioteca
