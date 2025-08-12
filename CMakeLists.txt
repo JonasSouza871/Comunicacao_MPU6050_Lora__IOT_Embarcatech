@@ -1,17 +1,3 @@
-# == DO NOT EDIT THE FOLLOWING LINES for the Raspberry Pi Pico VS Code Extension to work ==
-if(WIN32)
-    set(USERHOME $ENV{USERPROFILE})
-else()
-    set(USERHOME $ENV{HOME})
-endif()
-set(sdkVersion 2.1.0)
-set(toolchainVersion 13_3_Rel1)
-set(picotoolVersion 2.1.0)
-set(picoVscode ${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
-if (EXISTS ${picoVscode})
-    include(${picoVscode})
-endif()
-
 #Versão mínima do CMake necessária
 cmake_minimum_required(VERSION 3.13)
 
@@ -34,9 +20,9 @@ include_directories(lib)
 #Seleção do código-fonte principal (TX ou RX)
 set(MAIN_SOURCE_FILE
     #Descomente para compilar como transmissor
-    #lora_tx.c
+    lora_tx.c
     #Descomente para compilar como receptor
-    lora_rx.c
+    #lora_rx.c
 )
 
 #Lista de arquivos-fonte da biblioteca
