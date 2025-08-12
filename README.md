@@ -37,6 +37,8 @@ O projeto inclui bibliotecas modulares para os periféricos (RFM95, MPU6050, SSD
 
 ### 🖼 Galeria do Projeto
 
+<img width="91" height="135" alt="display aceleração e tambem giroscopio" src="https://github.com/user-attachments/assets/81e44948-9525-4127-8402-3b2e69e83951" />
+
 
 > **📊 Dados Transmitidos:** O sistema envia continuamente 6 valores em cada pacote: **Aceleração X, Y, Z** (em g) e **Giroscópio X, Y, Z** (em °/s).
 
@@ -173,3 +175,4 @@ cp lora_pico.uf2 /media/user/RPI-RP2
     -   Considere implementar filtros de média móvel ou calibração do MPU6050.
 
 ---
+
